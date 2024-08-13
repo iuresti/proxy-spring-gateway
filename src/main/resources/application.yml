@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: api_proxy
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(.*), /api/$1
+        - id: angular_frontend
+          uri: http://localhost:4200
+          predicates:
+            - Path=/ui/**
+          filters:
+            - RewritePath=/ui/(.*), /ui/$1
+        - id: auth
+          uri: http://localhost:8080
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(.*), /auth/$1
+
+
+server:
+  port: 9090
